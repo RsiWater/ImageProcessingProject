@@ -1,7 +1,13 @@
-import image_process_f
+import image_process_function
 
 v='水滴.mp4'
-video_size=image_process_f.size_f(v,100,100)
-video_gray=image_process_f.gray(v)
-image_process_f.write_video('size.mp4',video_size[0],video_size[1],video_size[2])
-image_process_f.write_video('gray.mp4',video_gray[0],video_gray[1],video_gray[2])
+i='gbBvokN.jpg'
+
+frames=[]
+#frames,fps=image_process_function.get_video(v)
+frames=image_process_function.get_image(i)
+frames=image_process_function.color(frames,0.114,0.587,0.229)
+frames=image_process_function.size(frames,50,50)
+#frames=image_process_function.gray(frames)
+#image_process_function.write_video('test.mp4',frames,fps)
+image_process_function.write_image('test.jpg',frames)
