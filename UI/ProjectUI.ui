@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
+    <width>1918</width>
     <height>1080</height>
    </rect>
   </property>
@@ -35,7 +35,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Grey Level</string>
+     <string>Grey Off</string>
     </property>
    </widget>
    <widget class="QPushButton" name="loadfilebutton">
@@ -142,7 +142,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Current Width:Height:</string>
+     <string>Origin Width:Height:</string>
     </property>
    </widget>
    <widget class="QSlider" name="greenLevel">
@@ -155,13 +155,16 @@
      </rect>
     </property>
     <property name="minimum">
-     <number>1</number>
+     <number>50</number>
     </property>
     <property name="maximum">
-     <number>100</number>
+     <number>200</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
     </property>
     <property name="value">
-     <number>50</number>
+     <number>100</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -177,13 +180,16 @@
      </rect>
     </property>
     <property name="minimum">
-     <number>1</number>
+     <number>50</number>
     </property>
     <property name="maximum">
-     <number>100</number>
+     <number>200</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
     </property>
     <property name="value">
-     <number>50</number>
+     <number>100</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -199,13 +205,16 @@
      </rect>
     </property>
     <property name="minimum">
-     <number>1</number>
+     <number>50</number>
     </property>
     <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="singleStep">
      <number>100</number>
     </property>
     <property name="value">
-     <number>50</number>
+     <number>100</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -292,7 +301,7 @@
    <widget class="QComboBox" name="filterBox">
     <property name="geometry">
      <rect>
-      <x>850</x>
+      <x>1150</x>
       <y>900</y>
       <width>150</width>
       <height>45</height>
@@ -417,13 +426,97 @@
      <string>ApplyScaling</string>
     </property>
    </widget>
+   <widget class="QDoubleSpinBox" name="redLabel">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>790</y>
+      <width>78</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <double>0.500000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>2.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.010000000000000</double>
+    </property>
+    <property name="value">
+     <double>1.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="greenLabel">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>825</y>
+      <width>78</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <double>0.500000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>2.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.010000000000000</double>
+    </property>
+    <property name="value">
+     <double>1.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="blueLabel">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>860</y>
+      <width>78</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <double>0.500000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>2.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.010000000000000</double>
+    </property>
+    <property name="value">
+     <double>1.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="savebutton_2">
+    <property name="geometry">
+     <rect>
+      <x>1700</x>
+      <y>100</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Reset</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="about">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1920</width>
+     <width>1918</width>
      <height>36</height>
     </rect>
    </property>

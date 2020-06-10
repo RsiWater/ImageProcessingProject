@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from filter import FilterED
 from filter import embossFilter
 
@@ -74,6 +75,7 @@ def emboss(frames): #浮雕濾鏡
         img = cv2.merge([B,G,R])
         modify_frames.append(img)
     return modify_frames
+    
 
 def color(frames,b,g,r):  #blue:(b:0.587,g:0.299,r:0.114),green:(b:0.114,g:0.587,r:0.229),red:(b:0.114,g:0.114,r:0.887),purple:(b:0.299,g:0.114,r:0.587),yellow(b:0.005,g:0.499,r:0.888)
     modify_frames=[]
@@ -110,7 +112,8 @@ def resize(img,h_percent,w_percent):
     w_percent=w_percent/100
     height = height*h_percent
     width = width*w_percent
-    img = cv2.resize(img,(int(width),int(height)))
+    temp_img = np.array(img, dtype="uint8")
+    img = cv2.resize(temp_img,(int(width),int(height)))
     return img
 
 def get_image(i):
