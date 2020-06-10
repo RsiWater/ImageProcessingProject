@@ -13,6 +13,12 @@ def get_video(v):
             video.append(frame)
     return(video,fps)
 
+def fpsDrop(frames,fps):
+    reframes=[]
+    for i in range(0,len(frames),int(fps)):
+        reframes.append(frames[i])
+    return reframes,1
+
 def gray(frames):
     modify_frames=[]
     for i in range(len(frames)):
