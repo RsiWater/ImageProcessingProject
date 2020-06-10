@@ -1,4 +1,6 @@
 import cv2
+from filter import FilterED
+from filter import embossFilter
 
 def get_video(v):
     vc = cv2.VideoCapture(v)
@@ -10,6 +12,12 @@ def get_video(v):
         if frame is not None:
             video.append(frame)
     return(video,fps)
+
+def fpsDrop(frames,fps):
+    reframes=[]
+    for i in range(0,len(frames),int(fps)):
+        reframes.append(frames[i])
+    return reframes,1
 
 def grey(frames):
     modify_frames=[]
@@ -23,15 +31,59 @@ def grey(frames):
         modify_frames.append(frames[i])
     return modify_frames
 
-def color(frames,x1,x2,x3):  #blue:(b:0.587,g:0.299,r:0.114),green:(b:0.114,g:0.587,r:0.229),red:(b:0.114,g:0.114,r:0.887),purple:(b:0.299,g:0.114,r:0.587),yellow(b:0.005,g:0.499,r:0.888)
+def findEdge(frames): #邊緣提取濾鏡
+    modify_frames=[]
+    for frame in frames:
+        B,G,R = cv2.split(frame)
+        R = FilterED(R,8)
+        G = FilterED(G,8)
+        B = FilterED(B,8)
+        img = cv2.merge([B,G,R])
+        modify_frames.append(img)
+    return modify_frames
+
+def edgeEnhance(frames): #邊緣增強濾鏡
+    modify_frames=[]
+    for frame in frames:
+        B,G,R = cv2.split(frame)
+        R = FilterED(R,10)
+        G = FilterED(G,10)
+        B = FilterED(B,10)
+        img = cv2.merge([B,G,R])
+        modify_frames.append(img)
+    return modify_frames
+
+def edgeEnMore(frames):
+    modify_frames=[]
+    for frame in frames:
+        B,G,R = cv2.split(frame)
+        R = FilterED(R,9)
+        G = FilterED(G,9)
+        B = FilterED(B,9)
+        img = cv2.merge([B,G,R])
+        modify_frames.append(img)
+    return modify_frames
+
+def emboss(frames): #浮雕濾鏡
+    modify_frames=[]
+    for frame in frames:
+        B,G,R = cv2.split(frame)
+        R = embossFilter(R)
+        G = embossFilter(G)
+        B = embossFilter(B)
+        img = cv2.merge([B,G,R])
+        modify_frames.append(img)
+    return modify_frames
+
+def color(frames,b,g,r):  #blue:(b:0.587,g:0.299,r:0.114),green:(b:0.114,g:0.587,r:0.229),red:(b:0.114,g:0.114,r:0.887),purple:(b:0.299,g:0.114,r:0.587),yellow(b:0.005,g:0.499,r:0.888)
     modify_frames=[]
     for i in range(len(frames)):
         img_B = frames[i][:,:, 0]
         img_G = frames[i][:,:, 1]
         img_R = frames[i][:,:, 2]
-        frames[i][:,:, 0]=img_B*x1
-        frames[i][:,:, 1]=img_G*x2
-        frames[i][:,:, 2]=img_R*x3
+        frames[i][:,:, 0]=img_B*b
+        frames[i][:,:, 1]=img_G*g
+        frames[i][:,:, 2]=img_R*r
         modify_frames.append(frames[i])
     return modify_frames
 
