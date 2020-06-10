@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1080</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="greylevelbutton">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>900</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Grey Level</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="loadfilebutton">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>900</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Load File</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="savebutton">
+    <property name="geometry">
+     <rect>
+      <x>1700</x>
+      <y>30</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Save</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="showvideo">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>30</y>
+      <width>1280</width>
+      <height>720</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>830</y>
+      <width>92</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體 Light</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Scale</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>870</y>
+      <width>670</width>
+      <height>120</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI Emoji</family>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Copyright © 1999-2019 4NUKing Inc.All rights reserved.</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>780</y>
+      <width>500</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體</family>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Current Width:Height:</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="greenLevel">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>830</y>
+      <width>370</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>50</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="blueLevel">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>860</y>
+      <width>370</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>50</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="redLevel">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>800</y>
+      <width>370</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>50</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>1150</x>
+      <y>800</y>
+      <width>300</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體 Light</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Red</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>1150</x>
+      <y>830</y>
+      <width>300</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體 Light</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Green</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>1150</x>
+      <y>860</y>
+      <width>300</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體 Light</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Blue</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>760</y>
+      <width>571</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>28</pointsize>
+      <weight>75</weight>
+      <italic>true</italic>
+      <bold>true</bold>
+      <underline>true</underline>
+      <strikeout>false</strikeout>
+     </font>
+    </property>
+    <property name="text">
+     <string>Image Process Tool</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="filterBox">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>900</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
+    </property>
+    <property name="currentText">
+     <string>無濾鏡</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>760</y>
+      <width>130</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體</family>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Color Level</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="widthlevel">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>830</y>
+      <width>100</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>3840</number>
+    </property>
+    <property name="singleStep">
+     <number>10</number>
+    </property>
+    <property name="value">
+     <number>800</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="heightlevel">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>830</y>
+      <width>100</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>2160</number>
+    </property>
+    <property name="singleStep">
+     <number>10</number>
+    </property>
+    <property name="value">
+     <number>480</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>830</y>
+      <width>92</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體 Light</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Width</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>830</y>
+      <width>92</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體 Light</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Height</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Applybutton">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>900</y>
+      <width>150</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微軟正黑體</family>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>ApplyScaling</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="about">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1920</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuabout">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionaboutus"/>
+    <addaction name="actionChoke_a_dick"/>
+   </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew"/>
+    <addaction name="actionSave"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionTwo_Level"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuabout"/>
+  </widget>
+  <widget class="QStatusBar" name="successful"/>
+  <action name="actionaboutus">
+   <property name="text">
+    <string>aboutus</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionTwo_Level">
+   <property name="text">
+    <string>Two Level</string>
+   </property>
+  </action>
+  <action name="actionChoke_a_dick">
+   <property name="text">
+    <string>Choke a dick</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

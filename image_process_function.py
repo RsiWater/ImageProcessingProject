@@ -11,7 +11,7 @@ def get_video(v):
             video.append(frame)
     return(video,fps)
 
-def gray(frames):
+def grey(frames):
     modify_frames=[]
     for i in range(len(frames)):
         img_B = frames[i][:,:, 0]

@@ -2,8 +2,10 @@ import sys
 import cv2
 import os.path 
 import pathlib
+import copy
 from PyQt5 import QtCore, QtGui, uic, QtWidgets
 from UI import ProjectUI
+from image_process_function import * 
 
 
 class MyApp(QtWidgets.QMainWindow):
@@ -12,32 +14,76 @@ class MyApp(QtWidgets.QMainWindow):
         self.ui = ProjectUI.Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.ui.showvideo.setScene(self.showImage("kirito.jpg"))
+        self.data = ''
+        self.ori_data = ''
+        self.fps = 0
+        
+        self.isGrey = False
+
+        self.readImageFromPath("kirito.jpg")
+        self.ori_data = copy.deepcopy(self.data)
+
+        self.ui.showvideo.setScene(self.showImage(self.data[0]))
         self.ui.loadfilebutton.clicked.connect(self.loadEvent)
-        self.ui.scalelevel.sliderReleased.connect(self.decideRatio)
+        self.ui.greylevelbutton.clicked.connect(self.setGrey)
+        self.ui.Applybutton.clicked.connect(self.apply)
+
 
     def debug(self):
         print("Starburststream")
         print(self.ui.savebutton.setVisible(False))
 
-    def decideRatio(self):
-        print(self.ui.scalelevel.value())
-        self.ui.Ratio.setText(str(float(self.ui.scalelevel.value() + 1) / float((self.ui.scalelevel.maximum() + 1) - float(self.ui.scalelevel.minimum()))))
+    def apply(self):
+        self.data = self.resizeImage()
+        self.ui.showvideo.setScene(self.showImage(self.data[0]))
+
+    def setGrey(self):
+        if not self.isGrey:
+            img = grey(self.data)
+            self.ui.showvideo.setScene(self.showImage(self.data[0]))
+            self.isGrey = True
+        else:
+            self.data = copy.deepcopy(self.ori_data)
+            self.data = self.resizeImage()
+            self.ui.showvideo.setScene(self.showImage(self.data[0]))
+            self.isGrey = False
+
+    def resizeImage(self):
+        # decide text
+        temp = cv2.cvtColor(self.data[0], cv2.COLOR_BGR2RGB)
+
+        height, width , gar = self.data[0].shape
+
+        # resize image
+        temp_data = copy.deepcopy(self.data)
+        img = size(temp_data, ((self.ui.heightlevel.value() / height) * 100), ((self.ui.widthlevel.value() / width) * 100))
+        return img
+        # self.ui.showvideo.setScene(self.showImage(img[0]))
 
     def loadEvent(self):
+        self.isGrey = False
         options = QtWidgets.QFileDialog.Options()
         options |= QtWidgets.QFileDialog.DontUseNativeDialog
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
         if fileName:
             # print(fileName)
-            self.ui.showvideo.setScene(self.showImage(fileName))
+            self.readImageFromPath(fileName)
+            if len(self.data) == 1:
+                self.ui.showvideo.setScene(self.showImage(self.data[0]))
+            else:
+                print("Video")
 
-    def showImage(self, path):
+    def readImageFromPath(self, path):
         if path.split("/")[0] == "C:":
-            img = cv2.imread(os.path.relpath(path), cv2.IMREAD_UNCHANGED)
+            if path.split("/")[-1].split('.')[1] == 'mp4':
+                self.data, self.fps = get_video(os.path.relpath(path))
+            else:
+                self.data = get_image(os.path.relpath(path))
         else:
-            # print(path)
-            img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
+            self.data = get_image(path)
+        self.ori_data = copy.deepcopy(self.data)
+    def showImage(self, send_img):
+        img = send_img
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
         img_height, img_width, gar = img.shape
