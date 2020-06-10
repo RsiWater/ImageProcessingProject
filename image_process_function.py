@@ -29,9 +29,9 @@ def color(frames,b,g,r):  #blue:(b:0.587,g:0.299,r:0.114),green:(b:0.114,g:0.587
         img_B = frames[i][:,:, 0]
         img_G = frames[i][:,:, 1]
         img_R = frames[i][:,:, 2]
-        frames[i][:,:, 0]=img_B*x1
-        frames[i][:,:, 1]=img_G*x2
-        frames[i][:,:, 2]=img_R*x3
+        frames[i][:,:, 0]=img_B*b
+        frames[i][:,:, 1]=img_G*g
+        frames[i][:,:, 2]=img_R*r
         modify_frames.append(frames[i])
     return modify_frames
 
