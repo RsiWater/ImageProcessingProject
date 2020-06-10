@@ -1,4 +1,5 @@
 import cv2
+from filter import FilterED
 
 def get_video(v):
     vc = cv2.VideoCapture(v)
@@ -21,6 +22,17 @@ def gray(frames):
         frames[i][:,:, 1]=img_B*0.114+img_G*0.587+img_R*0.299
         frames[i][:,:, 2]=img_B*0.114+img_G*0.587+img_R*0.299
         modify_frames.append(frames[i])
+    return modify_frames
+
+def findEdge(frames): #邊緣提取濾鏡
+    modify_frames=[]
+    for frame in frames:
+        B,G,R = cv2.split(frame)
+        R = FilterED(R,8)
+        G = FilterED(G,8)
+        B = FilterED(B,8)
+        img = cv2.merge([B,G,R])
+        modify_frames.append(img)
     return modify_frames
 
 def color(frames,x1,x2,x3):  #blue:(b:0.587,g:0.299,r:0.114),green:(b:0.114,g:0.587,r:0.229),red:(b:0.114,g:0.114,r:0.887),purple:(b:0.299,g:0.114,r:0.587),yellow(b:0.005,g:0.499,r:0.888)
