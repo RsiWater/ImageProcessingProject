@@ -1,5 +1,6 @@
 import cv2
 from filter import FilterED
+from filter import embossFilter
 
 def get_video(v):
     vc = cv2.VideoCapture(v)
@@ -35,13 +36,35 @@ def findEdge(frames): #邊緣提取濾鏡
         modify_frames.append(img)
     return modify_frames
 
-def edgeEnhance(frames):
+def edgeEnhance(frames): #邊緣增強濾鏡
     modify_frames=[]
     for frame in frames:
         B,G,R = cv2.split(frame)
         R = FilterED(R,10)
         G = FilterED(G,10)
         B = FilterED(B,10)
+        img = cv2.merge([B,G,R])
+        modify_frames.append(img)
+    return modify_frames
+
+def edgeEnMore(frames):
+    modify_frames=[]
+    for frame in frames:
+        B,G,R = cv2.split(frame)
+        R = FilterED(R,9)
+        G = FilterED(G,9)
+        B = FilterED(B,9)
+        img = cv2.merge([B,G,R])
+        modify_frames.append(img)
+    return modify_frames
+
+def emboss(frames): #浮雕濾鏡
+    modify_frames=[]
+    for frame in frames:
+        B,G,R = cv2.split(frame)
+        R = embossFilter(R)
+        G = embossFilter(G)
+        B = embossFilter(B)
         img = cv2.merge([B,G,R])
         modify_frames.append(img)
     return modify_frames
