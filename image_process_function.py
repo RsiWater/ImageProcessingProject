@@ -23,7 +23,7 @@ def gray(frames):
         modify_frames.append(frames[i])
     return modify_frames
 
-def color(frames,x1,x2,x3):  #blue:(b:0.587,g:0.299,r:0.114),green:(b:0.114,g:0.587,r:0.229),red:(b:0.114,g:0.114,r:0.887),purple:(b:0.299,g:0.114,r:0.587),yellow(b:0.005,g:0.499,r:0.888)
+def color(frames,b,g,r):  #blue:(b:0.587,g:0.299,r:0.114),green:(b:0.114,g:0.587,r:0.229),red:(b:0.114,g:0.114,r:0.887),purple:(b:0.299,g:0.114,r:0.587),yellow(b:0.005,g:0.499,r:0.888)
     modify_frames=[]
     for i in range(len(frames)):
         img_B = frames[i][:,:, 0]
