@@ -14,11 +14,15 @@ class MyApp(QtWidgets.QMainWindow):
 
         self.ui.showvideo.setScene(self.showImage("kirito.jpg"))
         self.ui.loadfilebutton.clicked.connect(self.loadEvent)
-        self.ui.scalelevel.sliderReleased.connect(self.debug)
+        self.ui.scalelevel.sliderReleased.connect(self.decideRatio)
 
     def debug(self):
         print("Starburststream")
         print(self.ui.savebutton.setVisible(False))
+
+    def decideRatio(self):
+        print(self.ui.scalelevel.value())
+        self.ui.Ratio.setText(str(float(self.ui.scalelevel.value() + 1) / float((self.ui.scalelevel.maximum() + 1) - float(self.ui.scalelevel.minimum()))))
 
     def loadEvent(self):
         options = QtWidgets.QFileDialog.Options()
