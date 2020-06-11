@@ -32,6 +32,7 @@ def grey(frames):
         modify_frames.append(frames[i])
     return modify_frames
 
+
 def findEdge(frames): #邊緣提取濾鏡
     modify_frames=[]
     for frame in frames:

@@ -119,7 +119,7 @@ class Ui_MainWindow(object):
         self.label_7.setObjectName("label_7")
         self.filterBox = QtWidgets.QComboBox(self.centralwidget)
         self.filterBox.setGeometry(QtCore.QRect(1150, 900, 150, 45))
-        self.filterBox.setEditable(True)
+        self.filterBox.setEditable(False)
         self.filterBox.setObjectName("filterBox")
         self.label_8 = QtWidgets.QLabel(self.centralwidget)
         self.label_8.setGeometry(QtCore.QRect(740, 760, 130, 30))

@@ -16,8 +16,13 @@ class MyApp(QtWidgets.QMainWindow):
 
         self.data = ''
         self.ori_data = ''
+        self.ori_video = ''
+
         self.fps = 0
         
+        self.isVideo = False
+        self.alreadyDone = False
+        self.clickedByGreyButton = True
         self.isGrey = False
 
         self.readImageFromPath("kirito.jpg")
@@ -49,19 +54,19 @@ class MyApp(QtWidgets.QMainWindow):
         print(self.ui.savebutton.setVisible(False))
 
     def initFilterBox(self):
-        if True: # Image
-            self.ui.filterBox.addItem("自訂義")
-            self.ui.filterBox.addItem("鄉愁黃")
-            self.ui.filterBox.addItem("共產紅")
-            self.ui.filterBox.addItem("星爆藍")
-            self.ui.filterBox.addItem("魅力紫")
-            self.ui.filterBox.addItem("出軌綠")
+        self.ui.filterBox.clear()
+
+        self.ui.filterBox.addItem("自訂義")
+        self.ui.filterBox.addItem("鄉愁黃")
+        self.ui.filterBox.addItem("共產紅")
+        self.ui.filterBox.addItem("星爆藍")
+        self.ui.filterBox.addItem("魅力紫")
+        self.ui.filterBox.addItem("出軌綠")
+        if not self.isVideo: # Image
             self.ui.filterBox.addItem("邊緣提取")
             self.ui.filterBox.addItem("邊緣增強")
             self.ui.filterBox.addItem("邊緣再增強")
             self.ui.filterBox.addItem("浮雕風")
-        else: # Video
-            pass
 
     def setRLabel(self):
         self.ui.redLabel.setValue(self.ui.redLevel.value() / 100)
@@ -88,17 +93,26 @@ class MyApp(QtWidgets.QMainWindow):
             pass
 
     def apply(self):
+        self.clickedByGreyButton = False
         self.data = copy.deepcopy(self.ori_data)
         if self.ui.filterBox.currentText() == "自訂義":
             self.data = self.modifyColor()
         else:
             self.data = self.modifyFilter()
         self.data = self.resizeImage()
+        if self.isGrey:
+            self.setGrey()
+        self.clickedByGreyButton = True
+        
         self.ui.showvideo.setScene(self.showImage(self.data[0]))
 
     def modifyFilter(self):
         filterType = self.ui.filterBox.currentText()
         temp_data = copy.deepcopy(self.data)
+
+        if self.isVideo and not self.alreadyDone:
+            temp_data = [temp_data[0]]
+
         if filterType == "鄉愁黃":
             temp_data = color(temp_data, 0.005, 0.499, 0.888)
         elif filterType == "共產紅":
@@ -121,14 +135,21 @@ class MyApp(QtWidgets.QMainWindow):
         return temp_data
 
     def setGrey(self):
-        if not self.isGrey:
+        if not self.isGrey or not self.clickedByGreyButton:
             img = grey(self.data)
             self.ui.showvideo.setScene(self.showImage(self.data[0]))
-            self.ui.greylevelbutton.setText("Grey Off")
-            self.isGrey = True
+            if self.clickedByGreyButton:
+                self.ui.greylevelbutton.setText("Grey Off")
+                self.isGrey = True
         else:
             self.data = copy.deepcopy(self.ori_data)
+
+            if self.ui.filterBox.currentText() == "自訂義":
+                self.data = self.modifyColor()
+            else:
+                self.data = self.modifyFilter()
             self.data = self.resizeImage()
+            
             self.ui.showvideo.setScene(self.showImage(self.data[0]))
             self.ui.greylevelbutton.setText("Grey On")
             self.isGrey = False
@@ -140,7 +161,10 @@ class MyApp(QtWidgets.QMainWindow):
 
         # resize image
         temp_data = copy.deepcopy(self.data)
-        img = size(temp_data, ((self.ui.heightlevel.value() / height) * 100), ((self.ui.widthlevel.value() / width) * 100))
+        if self.isVideo and not self.alreadyDone:
+            img = size([temp_data[0]], ((self.ui.heightlevel.value() / height) * 100), ((self.ui.widthlevel.value() / width) * 100))
+        else:
+            img = size(temp_data, ((self.ui.heightlevel.value() / height) * 100), ((self.ui.widthlevel.value() / width) * 100))
         return img
 
     def modifyColor(self):
@@ -150,8 +174,10 @@ class MyApp(QtWidgets.QMainWindow):
         G_Value = self.ui.greenLevel.value() / 100
         B_Value = self.ui.blueLevel.value() / 100
 
-
-        temp_data = color(temp_data, B_Value, G_Value, R_Value)
+        if self.isVideo and not self.alreadyDone:
+            temp_data = color([temp_data[0]], B_Value, G_Value, R_Value)
+        else:
+            temp_data = color(temp_data, B_Value, G_Value, R_Value)
         return temp_data
 
     def loadEvent(self):
@@ -162,6 +188,7 @@ class MyApp(QtWidgets.QMainWindow):
         if fileName:
             # print(fileName)
             self.readImageFromPath(fileName)
+            self.initFilterBox()
             if len(self.data) == 1:
                 self.ui.showvideo.setScene(self.showImage(self.data[0]))
             else:
@@ -169,24 +196,39 @@ class MyApp(QtWidgets.QMainWindow):
                 self.ui.showvideo.setScene(self.showImage(self.data[0]))
 
     def saveEvent(self):
-        directory = str(QtWidgets.QFileDialog.getSaveFileName(self, ("Save F:xile"), "./untitled.jpg", ("Images (*.png *.jpg)")))
+        if self.isVideo:
+            directory = str(QtWidgets.QFileDialog.getSaveFileName(self, ("Save F:xile"), "./untitled.mp4", ("Video (*.mp4)")))
+        else:
+            directory = str(QtWidgets.QFileDialog.getSaveFileName(self, ("Save F:xile"), "./untitled.jpg", ("Images (*.png *.jpg)")))
         savePath = directory.split("'")[1]
 
         if savePath != '':
             if savePath.split("/")[0] == "C:":
                 savePath = os.path.relpath(savePath)
 
-            if True: #Image
+            if not self.isVideo: #Image
                 write_image(savePath, self.data)
             else:
-                pass
+                self.alreadyDone = True
+                self.apply()
+                write_video(savePath, self.data, self.fps)
+        
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText("File saved!")
+        msg.setWindowTitle("Notification")
+
+        msg.exec_()
 
     def readImageFromPath(self, path):
         if path.split("/")[0] == "C:":
             if path.split("/")[-1].split('.')[1] == 'mp4':
                 self.data, self.fps = get_video(os.path.relpath(path))
+                self.ori_video = copy.deepcopy(self.data)
+                self.isVideo = True
             else:
                 self.data = get_image(os.path.relpath(path))
+                self.isVideo = False
         else:
             self.data = get_image(path)
         self.ori_data = copy.deepcopy(self.data)
