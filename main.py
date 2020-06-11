@@ -15,6 +15,7 @@ class MyApp(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         self.data = ''
+        self.greyData = ''
         self.ori_data = ''
         self.ori_video = ''
 
@@ -44,7 +45,6 @@ class MyApp(QtWidgets.QMainWindow):
         self.ui.greenLabel.valueChanged.connect(self.setGLevel)
         self.ui.blueLabel.valueChanged.connect(self.setBLevel)
         self.ui.resetButton.clicked.connect(self.reset)
-        self.ui.savebutton.clicked.connect(self.save)
         # self.ui.filterBox.currentIndexChanged.connect(self.modifyFilter)
         self.ui.Applybutton.clicked.connect(self.apply)
 
@@ -85,12 +85,6 @@ class MyApp(QtWidgets.QMainWindow):
     def reset(self):
         self.data = copy.deepcopy(self.ori_data)
         self.ui.showvideo.setScene(self.showImage(self.ori_data[0]))
-
-    def save(self):
-        if True: # Image
-            write_image("New.jpg", self.data)
-        else:
-            pass
 
     def apply(self):
         self.clickedByGreyButton = False
@@ -136,20 +130,14 @@ class MyApp(QtWidgets.QMainWindow):
 
     def setGrey(self):
         if not self.isGrey or not self.clickedByGreyButton:
-            img = grey(self.data)
-            self.ui.showvideo.setScene(self.showImage(self.data[0]))
+            img = copy.deepcopy(self.data)
+            img = grey(img)
+            self.ui.showvideo.setScene(self.showImage(img[0]))
+            self.greyData = copy.deepcopy(img)
             if self.clickedByGreyButton:
                 self.ui.greylevelbutton.setText("Grey Off")
                 self.isGrey = True
         else:
-            self.data = copy.deepcopy(self.ori_data)
-
-            if self.ui.filterBox.currentText() == "自訂義":
-                self.data = self.modifyColor()
-            else:
-                self.data = self.modifyFilter()
-            self.data = self.resizeImage()
-            
             self.ui.showvideo.setScene(self.showImage(self.data[0]))
             self.ui.greylevelbutton.setText("Grey On")
             self.isGrey = False
@@ -202,6 +190,8 @@ class MyApp(QtWidgets.QMainWindow):
             directory = str(QtWidgets.QFileDialog.getSaveFileName(self, ("Save F:xile"), "./untitled.jpg", ("Images (*.png *.jpg)")))
         savePath = directory.split("'")[1]
 
+        if self.isGrey:
+            self.data = copy.deepcopy(self.greyData)
         if savePath != '':
             if savePath.split("/")[0] == "C:":
                 savePath = os.path.relpath(savePath)
@@ -232,6 +222,7 @@ class MyApp(QtWidgets.QMainWindow):
         else:
             self.data = get_image(path)
         self.ori_data = copy.deepcopy(self.data)
+        
     def showImage(self, send_img):
         img = send_img
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
