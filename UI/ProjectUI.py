@@ -235,7 +235,7 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "Red"))
         self.label_5.setText(_translate("MainWindow", "Green"))
         self.label_6.setText(_translate("MainWindow", "Blue"))
-        self.label_7.setText(_translate("MainWindow", "Image Process Tool"))
+        self.label_7.setText(_translate("MainWindow", "MultiMedia Process Tool"))
         self.filterBox.setCurrentText(_translate("MainWindow", "無濾鏡"))
         self.label_8.setText(_translate("MainWindow", "Color Level"))
         self.label_9.setText(_translate("MainWindow", "Width"))

@@ -29,6 +29,8 @@ class MyApp(QtWidgets.QMainWindow):
         self.ui.label_3.setText("Origin: "+ str(self.ori_data[0].shape[1]) + "x" +str(self.ori_data[0].shape[0]))
         self.ui.actionNew.triggered.connect(self.loadEvent)
         self.ui.loadfilebutton.clicked.connect(self.loadEvent)
+        self.ui.savebutton.clicked.connect(self.saveEvent)
+        self.ui.actionSave.triggered.connect(self.saveEvent)
         self.ui.greylevelbutton.clicked.connect(self.setGrey)
         self.ui.redLevel.sliderReleased.connect(self.setRLabel)
         self.ui.greenLevel.sliderReleased.connect(self.setGLabel)
@@ -163,7 +165,21 @@ class MyApp(QtWidgets.QMainWindow):
             if len(self.data) == 1:
                 self.ui.showvideo.setScene(self.showImage(self.data[0]))
             else:
-                print("Video")
+                # set video to frame 0
+                self.ui.showvideo.setScene(self.showImage(self.data[0]))
+
+    def saveEvent(self):
+        directory = str(QtWidgets.QFileDialog.getSaveFileName(self, ("Save F:xile"), "./untitled.jpg", ("Images (*.png *.jpg)")))
+        savePath = directory.split("'")[1]
+
+        if savePath != '':
+            if savePath.split("/")[0] == "C:":
+                savePath = os.path.relpath(savePath)
+
+            if True: #Image
+                write_image(savePath, self.data)
+            else:
+                pass
 
     def readImageFromPath(self, path):
         if path.split("/")[0] == "C:":
