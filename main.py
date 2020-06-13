@@ -96,9 +96,11 @@ class MyApp(QtWidgets.QMainWindow):
         self.data = self.resizeImage()
         if self.isGrey:
             self.setGrey()
+            self.ui.showvideo.setScene(self.showImage(self.greyData[0]))
+        else:
+            self.ui.showvideo.setScene(self.showImage(self.data[0]))
         self.clickedByGreyButton = True
         
-        self.ui.showvideo.setScene(self.showImage(self.data[0]))
 
     def modifyFilter(self):
         filterType = self.ui.filterBox.currentText()
@@ -131,6 +133,11 @@ class MyApp(QtWidgets.QMainWindow):
     def setGrey(self):
         if not self.isGrey or not self.clickedByGreyButton:
             img = copy.deepcopy(self.data)
+            if (self.isVideo and self.alreadyDone) or not self.isVideo:
+                img = grey(img)
+            else:
+                img = grey([img[0]])
+
             img = grey(img)
             self.ui.showvideo.setScene(self.showImage(img[0]))
             self.greyData = copy.deepcopy(img)
@@ -190,18 +197,27 @@ class MyApp(QtWidgets.QMainWindow):
             directory = str(QtWidgets.QFileDialog.getSaveFileName(self, ("Save F:xile"), "./untitled.jpg", ("Images (*.png *.jpg)")))
         savePath = directory.split("'")[1]
 
-        if self.isGrey:
-            self.data = copy.deepcopy(self.greyData)
         if savePath != '':
             if savePath.split("/")[0] == "C:":
                 savePath = os.path.relpath(savePath)
+
+            if self.isGrey:
+                tempData = copy.deepcopy(self.data)
+                self.data = copy.deepcopy(self.greyData)
 
             if not self.isVideo: #Image
                 write_image(savePath, self.data)
             else:
                 self.alreadyDone = True
                 self.apply()
-                write_video(savePath, self.data, self.fps)
+                if self.isGrey:
+                    write_video(savePath, self.greyData, self.fps)
+                else:
+                    write_video(savePath, self.data, self.fps)
+                self.alreadyDone = False
+        
+        if self.isGrey:
+            self.data = copy.deepcopy(tempData)
         
         msg = QtWidgets.QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -238,17 +254,9 @@ class MyApp(QtWidgets.QMainWindow):
 
         return scene
 
-# need to read video
-# how to display on GUI?
-# final Merge
 
 app = QtWidgets.QApplication(sys.argv)
 window = MyApp()
 window.show()
-
-# img = cv2.imread("kirito.jpg")
-# cv2.imshow("", img)
-# cv2.waitKey(0)\
-# cv2.destroyAllWindows()
 
 sys.exit(app.exec_())
