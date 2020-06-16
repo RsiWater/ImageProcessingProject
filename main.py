@@ -26,7 +26,7 @@ class MyApp(QtWidgets.QMainWindow):
         self.clickedByGreyButton = True
         self.isGrey = False
 
-        self.readImageFromPath("kirito.jpg")
+        self.readImageFromPath("patrick.jpg")
         self.ori_data = copy.deepcopy(self.data)
 
         self.initFilterBox()
@@ -45,7 +45,6 @@ class MyApp(QtWidgets.QMainWindow):
         self.ui.greenLabel.valueChanged.connect(self.setGLevel)
         self.ui.blueLabel.valueChanged.connect(self.setBLevel)
         self.ui.resetButton.clicked.connect(self.reset)
-        # self.ui.filterBox.currentIndexChanged.connect(self.modifyFilter)
         self.ui.Applybutton.clicked.connect(self.apply)
 
 
@@ -61,7 +60,7 @@ class MyApp(QtWidgets.QMainWindow):
         self.ui.filterBox.addItem("共產紅")
         self.ui.filterBox.addItem("星爆藍")
         self.ui.filterBox.addItem("魅力紫")
-        self.ui.filterBox.addItem("出軌綠")
+        self.ui.filterBox.addItem("出軌綠") 
         if not self.isVideo: # Image
             self.ui.filterBox.addItem("邊緣提取")
             self.ui.filterBox.addItem("邊緣增強")
@@ -84,6 +83,12 @@ class MyApp(QtWidgets.QMainWindow):
 
     def reset(self):
         self.data = copy.deepcopy(self.ori_data)
+        self.ui.redLevel.setValue(int(1 * 100))
+        self.ui.greenLevel.setValue(int(1 * 100))
+        self.ui.blueLevel.setValue(int(1 * 100))
+        self.ui.redLabel.setValue(100 / 100)
+        self.ui.greenLabel.setValue(100 / 100)
+        self.ui.blueLabel.setValue(100 / 100)
         self.ui.showvideo.setScene(self.showImage(self.ori_data[0]))
 
     def apply(self):
@@ -189,6 +194,8 @@ class MyApp(QtWidgets.QMainWindow):
             else:
                 # set video to frame 0
                 self.ui.showvideo.setScene(self.showImage(self.data[0]))
+        
+        self.ui.label_3.setText("Origin: "+ str(self.data[0].shape[1]) + "x" +str(self.data[0].shape[0]))
 
     def saveEvent(self):
         if self.isVideo:
@@ -244,6 +251,7 @@ class MyApp(QtWidgets.QMainWindow):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
         img_height, img_width, gar = img.shape
+        
 
         image_disp = QtGui.QImage(img, img_width, img_height, QtGui.QImage.Format_RGB888)
 
